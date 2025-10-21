@@ -16,9 +16,8 @@ class LoanPaymentSeeder extends Seeder
             for ($i = 0; $i < $payments; $i++) {
                 LoanPayment::create([
                     'loan_id' => $loan->id,
-                    'amount' => rand(100, 1000),
-                    'paid_at' => now()->subDays(rand(0, 30)),
-                    'method' => 'cash',
+                    'amount_paid' => rand(100, 1000),
+                    'payment_date' => now()->subDays(rand(0, 30))->toDateString(),
                 ]);
             }
         }
