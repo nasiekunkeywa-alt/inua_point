@@ -4,12 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Role extends Model
+class LoanPayment extends Model
 {
-    protected $fillable = ['name'];
+    // Minimal fillable fields; adjust as needed for your domain
+    protected $fillable = ['loan_id', 'amount', 'paid_at', 'method'];
 
-    public function users()
+    public function loan()
     {
-        return $this->hasMany(User::class);
+        return $this->belongsTo(Loan::class);
     }
 }
