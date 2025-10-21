@@ -20,8 +20,8 @@ class LoanSeeder extends Seeder
                 Loan::create([
                     'user_id' => $member->id,
                     'amount' => rand(1000, 10000),
-                    'term' => '6 months',
-                    'status' => 'active',
+                    'status' => 'approved',
+                    'repayment_date' => now()->addMonths(6)->toDateString(),
                 ]);
             }
         }
