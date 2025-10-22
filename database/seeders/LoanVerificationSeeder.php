@@ -11,12 +11,13 @@ class LoanVerificationSeeder extends Seeder
     public function run(): void
     {
         $loans = Loan::take(5)->get();
+        $officer = \App\Models\User::whereHas('role', fn($q) => $q->where('name', 'loan_officer'))->first();
         foreach ($loans as $index => $loan) {
             LoanVerification::create([
                 'loan_id' => $loan->id,
-                'verified_by' => null,
-                'status' => $index % 2 === 0 ? 'approved' : 'pending',
-                'notes' => 'Seeded verification',
+                'officer_id' => $officer?->id,
+                'remarks' => $index % 2 === 0 ? 'approved by seeder' : 'pending verification',
+                'verification_photos' => null,
             ]);
         }
     }
