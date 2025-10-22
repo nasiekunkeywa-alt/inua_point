@@ -24,17 +24,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('loans', LoanController::class)->except(['show'])->names('loans');
 
     // Payments
-    Route::get('payments', [LoanPaymentController::class, 'index'])->name('payments.index');
-    Route::get('payments/create', [LoanPaymentController::class, 'create'])->name('payments.create');
-    Route::post('payments', [LoanPaymentController::class, 'store'])->name('payments.store');
+    Route::get('payments', [LoanPaymentController::class, 'index'])->name('payments.index')->middleware(\App\Http\Middleware\CheckRole::class.':loan_officer');
+    Route::get('payments/create', [LoanPaymentController::class, 'create'])->name('payments.create')->middleware(\App\Http\Middleware\CheckRole::class.':member');
+    Route::post('payments', [LoanPaymentController::class, 'store'])->name('payments.store')->middleware(\App\Http\Middleware\CheckRole::class.':member');
 
     // Verifications
-    Route::get('verifications', [LoanVerificationController::class, 'index'])->name('verifications.index');
-    Route::post('verifications/{verification}/approve', [LoanVerificationController::class, 'approve'])->name('verifications.approve');
-    Route::post('verifications/{verification}/reject', [LoanVerificationController::class, 'reject'])->name('verifications.reject');
+    Route::get('verifications', [LoanVerificationController::class, 'index'])->name('verifications.index')->middleware(\App\Http\Middleware\CheckRole::class.':loan_officer');
+    Route::post('verifications/{verification}/approve', [LoanVerificationController::class, 'approve'])->name('verifications.approve')->middleware(\App\Http\Middleware\CheckRole::class.':loan_officer');
+    Route::post('verifications/{verification}/reject', [LoanVerificationController::class, 'reject'])->name('verifications.reject')->middleware(\App\Http\Middleware\CheckRole::class.':loan_officer');
 
     // Roles
-    Route::get('roles', [RoleController::class, 'index'])->name('roles.index');
+    Route::get('roles', [RoleController::class, 'index'])->name('roles.index')->middleware(\App\Http\Middleware\CheckRole::class.':admin');
 
     // Profile routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

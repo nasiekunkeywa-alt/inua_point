@@ -16,10 +16,18 @@
         <div class="mt-4">
             <x-input-label for="password" :value="__('Password')" />
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
+            <div class="relative">
+                <x-text-input id="password" class="block mt-1 w-full"
+                                type="password"
+                                name="password"
+                                required autocomplete="current-password" />
+                <div class="absolute inset-y-0 end-0 flex items-center pe-3">
+                    <label class="inline-flex items-center text-sm text-gray-600 ms-2">
+                        <input id="show_password" type="checkbox" class="form-checkbox h-4 w-4 text-indigo-600">
+                        <span class="ms-2">Show</span>
+                    </label>
+                </div>
+            </div>
 
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
@@ -44,4 +52,15 @@
             </x-primary-button>
         </div>
     </form>
+
+    <script>
+        (function () {
+            const toggle = document.getElementById('show_password');
+            const pwd = document.getElementById('password');
+            if (!toggle || !pwd) return;
+            toggle.addEventListener('change', function () {
+                pwd.type = this.checked ? 'text' : 'password';
+            });
+        })();
+    </script>
 </x-guest-layout>
